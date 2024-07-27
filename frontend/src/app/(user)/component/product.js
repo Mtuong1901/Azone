@@ -1,7 +1,10 @@
+import { addItem } from "@/app/redux/slices/cartSlices";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 export default function Product(props){
     const product = props.data;
+    const dispatch = useDispatch();
     return (
         <>
         <div className="pro-box">
@@ -15,7 +18,7 @@ export default function Product(props){
                     <p>{product.description}</p>
                     <span>{product.price.toLocaleString()} VND</span>
                   </div>
-                  <button className="product-btn btn btn-primary">Add to Cart</button>
+                  <button className="product-btn btn btn-primary" onClick={() => dispatch(addItem({product,quantity:1,size:'37'}))}>Add to Cart</button>
                 </div>
               </div>
         </>

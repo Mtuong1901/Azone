@@ -1,6 +1,20 @@
+'use client';
+import { useState } from 'react';
 import Link from 'next/link';
+import Cart from '../cart/page';
 
 export default function Nav() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleOpenCart = (e) => {
+    e.preventDefault();
+    setIsCartOpen(true);
+  };
+
+  const handleCloseCart = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <div>
       <div className="nav-top d-flex justify-content-between align-items-center p-2 bg-secondary">
@@ -36,12 +50,42 @@ export default function Nav() {
             </form>
           </div>
           <div className="navbar-nav">
-            <Link className="nav-link" href="#">Sign in<i className="fa-solid fa-user ms-2"></i></Link>
+            <Link className="nav-link" href="/login">Sign in<i className="fa-solid fa-user ms-2"></i></Link>
             <Link className="nav-link" href="#"><i className="fa-solid fa-heart"></i></Link>
-            <Link className="nav-link" href="#"><i className="fa-solid fa-cart-shopping"></i></Link>
+            <a className="nav-link" href="#" onClick={handleOpenCart}><i className="fa-solid fa-cart-shopping"></i></a>
           </div>
         </div>
       </nav>
+      <div className={`cart-modal ${isCartOpen ? 'open' : ''}`}>
+        <button className="close-btn" onClick={handleCloseCart}>X</button>
+        <Cart/>
+      </div>
+      <style jsx>{`
+        .cart-modal {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 700px;
+          height: 100%;
+          background: white;
+          box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+          transition: right 0.3s ease;
+          padding: 20px;
+          z-index: 1000;
+        }
+        .cart-modal.open {
+          right: 0;
+        }
+        .close-btn {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: none;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      `}</style>
     </div>
   );
 }

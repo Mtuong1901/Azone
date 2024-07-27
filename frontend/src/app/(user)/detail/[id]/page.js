@@ -1,7 +1,9 @@
-'use client'
+'use client';
 import { useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { addItem } from "@/app/redux/slices/cartSlices";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -10,6 +12,8 @@ export default function Detail({ params }) {
     const [isSizeOpen, setIsSizeOpen] = useState(true);
     const [quantity, setQuantity] = useState(1); // Khởi tạo số lượng mặc định là 1
     const [selectedSize, setSelectedSize] = useState(null); // Thêm state để theo dõi kích thước được chọn
+    const [error, setError] = useState(null); // Thêm state để theo dõi lỗi
+    const dispatch = useDispatch();
 
     const rows = [
         ["S", "M", "L"],
@@ -25,6 +29,15 @@ export default function Detail({ params }) {
 
     const handleSizeClick = (size) => {
         setSelectedSize(size); // Cập nhật kích thước được chọn
+        setError(null); // Xóa lỗi khi kích thước được chọn
+    };
+
+    const handleAddToCart = () => {
+        if (!selectedSize) {
+            setError("Vui lòng chọn kích thước.");
+            return;
+        }
+        dispatch(addItem({product, quantity, size: selectedSize }));
     };
 
     if (productError) return <div>Lỗi khi tải chi tiết sản phẩm</div>;
@@ -104,7 +117,8 @@ export default function Detail({ params }) {
                                 <button onClick={incrementQuantity} className="btn btn-secondary">+</button>
                             </div>
                         </div>
-                        <button className="btn btn-primary mt-3 w-100 p-3">Thêm vào giỏ hàng</button>
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        <button className="btn btn-primary mt-3 w-100 p-3" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                     </div>
                 </div>
             </div>
