@@ -1,3 +1,4 @@
+'use client'
 import { removeCart, removeItem } from "@/app/redux/slices/cartSlices";
 import Link from "next/link";
 import { useEffect, useState } from "react";
