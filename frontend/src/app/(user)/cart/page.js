@@ -1,14 +1,11 @@
 import { removeCart, removeItem } from "@/app/redux/slices/cartSlices";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function Cart() {
+export default function Cart({ setIsCartOpen }) {
   const cart = useSelector((state) => state.cart);
   const [total, setTotal] = useState(0);
-  const [fullname, setFullname] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,40 +16,6 @@ export default function Cart() {
     setTotal(newTotal);
   }, [cart]);
 
-  const handleRemoveItem = (productId, size) => {
-    dispatch(removeItem({ productId, size }));
-  };
-
-  const submit = (e) => {
-    e.preventDefault();
-    fetch(`${process.env.NEXT_PUBLIC_API}/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          fullname: fullname,
-          phone: phone,
-          address: address,
-        },
-        detail: cart,
-        total_Money: total,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Order placed successfully:", data);
-        // Xóa giỏ hàng sau khi đặt hàng thành công
-        dispatch(removeCart());
-        // Thực hiện hành động khác sau khi đặt hàng thành công, ví dụ như chuyển hướng
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-        // Xử lý lỗi
-      });
-  };
-
   if (cart.length === 0) {
     return (
       <>
@@ -61,6 +24,15 @@ export default function Cart() {
       </>
     );
   }
+
+  const handleRemoveItem = (product, size) => {
+    dispatch(removeItem({ product, size }));
+  };
+
+  const handleOpenCart = (e) => {
+    setIsCartOpen(false); // Đóng giỏ hàng khi mở modal
+
+  };
 
   return (
     <>
@@ -96,7 +68,7 @@ export default function Cart() {
               <td>
                 <button
                   className="btn btn-outline-danger"
-                  onClick={() => handleRemoveItem(item._id, item.size)}
+                  onClick={() => handleRemoveItem(item, item.size)}
                 >
                   <i className="fa-solid fa-trash-alt"></i>
                 </button>
@@ -117,6 +89,13 @@ export default function Cart() {
           </tr>
         </tbody>
       </table>
+      <div className="order">
+        <Link href="/order"><button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleOpenCart}
+        >Checkout</button></Link>
+      </div>
     </>
   );
 }

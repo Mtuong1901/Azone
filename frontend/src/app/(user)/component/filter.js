@@ -1,11 +1,17 @@
-'use client'
+"use client";
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMax, setMin } from '../../redux/slices/filterSlice';
 
-export default function Filter() {
+export default function Filter(props) {
     const [isPriceOpen, setIsPriceOpen] = useState(true);
     const [isSizeOpen, setIsSizeOpen] = useState(true);
-    const [priceValue, setPriceValue] = useState(100000); 
+    const dispatch = useDispatch();
+    const minPrice = useSelector((state) => state.filter.min);
+    const maxPrice = useSelector((state) => state.filter.max);
+
+    const products = props.data || []; // Ensure data is defined
 
     const togglePriceContent = () => {
         setIsPriceOpen(!isPriceOpen);
@@ -15,18 +21,10 @@ export default function Filter() {
         setIsSizeOpen(!isSizeOpen);
     };
 
-    const handlePriceSliderChange = (e) => {
-        setPriceValue(e.target.value);
-    };
-
-    const handlePriceInputChange = (e) => {
-        setPriceValue(e.target.value);
-    };
-
-    // Tạo dữ liệu kích thước từ 37 đến 43
+    // Create size data from 37 to 43
     const sizes = [...Array(7).keys()].map(i => 37 + i);
 
-    // Chia dữ liệu thành các hàng với mỗi hàng có 4 cột
+    // Split data into rows with 4 columns each
     const rows = [];
     for (let i = 0; i < sizes.length; i += 4) {
         rows.push(sizes.slice(i, i + 4));
@@ -51,23 +49,43 @@ export default function Filter() {
                                 <h6>Lọc Giá</h6>
                                 <input 
                                     type="range" 
-                                    min="0" 
-                                    max="100000" 
-                                    value={priceValue} 
-                                    onChange={handlePriceSliderChange} 
+                                    min={1000000} 
+                                    max={3000000} 
+                                    step={5000}
+                                    value={minPrice}
+                                    onChange={(e) => dispatch(setMin(e.target.value))} 
+                                    className="form-range mb-2"
+                                />
+                                <input 
+                                    type="range" 
+                                    min={1000000} 
+                                    max={3000000} 
+                                    step={5000}
+                                    value={maxPrice}
+                                    onChange={(e) => dispatch(setMax(e.target.value))} 
                                     className="form-range mb-2"
                                 />
                                 <div className="d-flex justify-content-between align-items-center">
                                     <input 
                                         type="number" 
-                                        value={priceValue} 
-                                        onChange={handlePriceInputChange}
-                                        min="0"
-                                        max="100000"
+                                        min={1000000} 
+                                        max={3000000} 
+                                        step={5000}
+                                        value={minPrice}
+                                        onChange={(e) => dispatch(setMin(e.target.value))} 
+                                        className="form-control mr-2"
+                                    />
+                                    <input 
+                                        type="number" 
+                                        min={1000000} 
+                                        max={3000000} 
+                                        step={5000}
+                                        value={maxPrice}
+                                        onChange={(e) => dispatch(setMax(e.target.value))} 
                                         className="form-control mr-2"
                                     />
                                     <output className="font-weight-bold">
-                                        {Math.round(priceValue / 1000)}k
+                                        {Math.round(minPrice / 1000)}k - {Math.round(maxPrice / 1000)}k
                                     </output>
                                 </div>
                             </div>
@@ -94,14 +112,18 @@ export default function Filter() {
                                 <table className="table table-bordered">
                                     <thead>
                                         <tr>
-                                            
+                                            {/* Optionally add headers here */}
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {rows.map((row, index) => (
                                             <tr key={index}>
                                                 {row.map((size, idx) => (
-                                                    <td key={idx}><Link href="#">{size}</Link></td>
+                                                    <td key={idx}>
+                                                        <Link href="#">
+                                                            {size} ({products.filter(product => product.size === size).length})
+                                                        </Link>
+                                                    </td>
                                                 ))}
                                             </tr>
                                         ))}

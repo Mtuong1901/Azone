@@ -2,6 +2,7 @@ import "./globals.css";
 import "../../../public/bootstrap/css/bootstrap.min.css";
 import Nav from "./component/nav";
 import Providers from "../redux/providers";
+import AuthProvider from "./component/authprovider";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,12 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <>
-   
+    
     <html lang="en">
       <body>
       <Providers>
+        <AuthProvider>
         <Nav/>
         {children}
+        </AuthProvider>
       </Providers>
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

@@ -1,22 +1,26 @@
 'use client';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation'; 
 import Link from 'next/link';
 import Cart from '../cart/page';
+import Authenticated from './authenticated';
+import { useSelector } from 'react-redux'; // Import useSelector từ react-redux
 
 export default function Nav() {
   const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const handleOpenCart = (e) => {
-    e.preventDefault();
-    setIsCartOpen(true);
-  };
+  const pathname = usePathname(); 
+  const cartItems = useSelector(state => state.cart); // Lấy danh sách sản phẩm từ Redux store
 
   const handleCloseCart = () => {
     setIsCartOpen(false);
   };
 
+  if (pathname === '/login' || pathname === '/signup') {
+    return null;
+  }
+
   return (
-    <div>
+    <header>
       <div className="nav-top d-flex justify-content-between align-items-center p-2 bg-secondary">
         <div>Location</div>
         <div>
@@ -33,32 +37,45 @@ export default function Nav() {
           </ul>
         </div>
       </div>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom p-3">
         <div className="container-fluid">
-          <Link className="navbar-brand" href="#">Wallstore</Link>
+          <Link className="navbar-brand" href="/">Wallstore</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <Link className="nav-link active" href="/">Home</Link>
+            <div className="navbar-nav fs-3">
+              <Link className="nav-link" href="/">Home</Link>
               <Link className="nav-link" href="/menu">Menu</Link>
               <Link className="nav-link" href="#">About</Link>
             </div>
-            <form className="d-flex ms-auto" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" />
+            <form className="d-flex ms-auto" action='/search' method='get'>
+              <input
+                  className="form-control me-1 fs-5"
+                  type="search"
+                  placeholder="Search"
+                  name="keyword"
+              />
             </form>
           </div>
-          <div className="navbar-nav">
-            <Link className="nav-link" href="/login">Sign in<i className="fa-solid fa-user ms-2"></i></Link>
-            <Link className="nav-link" href="#"><i className="fa-solid fa-heart"></i></Link>
-            <a className="nav-link" href="#" onClick={handleOpenCart}><i className="fa-solid fa-cart-shopping"></i></a>
+          <div className="navbar-nav d-flex align-items-center">
+            <Authenticated setIsCartOpen={setIsCartOpen}/>
+            <div className="position-relative">
+              <button className="btn btn-link" onClick={() => setIsCartOpen(true)}>
+                <i className="bi bi-cart fs-3"></i> {/* Icon giỏ hàng */}
+                {cartItems.length > 0 && ( // Hiển thị số lượng sản phẩm nếu có
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {cartItems.length}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
       <div className={`cart-modal ${isCartOpen ? 'open' : ''}`}>
-        <button className="close-btn" onClick={handleCloseCart}>X</button>
-        <Cart/>
+        <button className="close-btn fs-3" onClick={handleCloseCart}>X</button>
+        <Cart setIsCartOpen={setIsCartOpen}/>
       </div>
       <style jsx>{`
         .cart-modal {
@@ -85,7 +102,11 @@ export default function Nav() {
           font-size: 20px;
           cursor: pointer;
         }
+        .badge {
+          font-size: 1rem;
+        }
+        
       `}</style>
-    </div>
+    </header>
   );
 }
