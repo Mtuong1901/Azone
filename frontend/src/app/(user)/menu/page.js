@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import Filter from "../component/filter";
-import ProductList from "../component/productList";
+import Filter from "@/component/filter";
+import ProductList from "@/component/productList";
 import useSWR from "swr";
 import { useDispatch, useSelector } from "react-redux";
 import { sortDefault, sortASC, sortDESC } from "@/redux/slices/sortSlice";

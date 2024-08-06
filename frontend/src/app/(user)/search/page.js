@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import ProductList from '../component/productList';
+import ProductList from '../../component/productList';
 
 export default function Search(params) {
     const [productSearch, setProductSearch] = useState([]);

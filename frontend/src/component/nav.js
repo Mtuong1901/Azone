@@ -2,9 +2,10 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation'; 
 import Link from 'next/link';
-import Cart from '../cart/page';
+
 import Authenticated from './authenticated';
 import { useSelector } from 'react-redux'; // Import useSelector từ react-redux
+import Cart from '@/app/(user)/cart/page';
 
 export default function Nav() {
   const [isCartOpen, setIsCartOpen] = useState(false);

@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
-import Slide from "./component/slide";
-import Trending from "./component/trending";
+import Slide from "../../component/slide";
+import Trending from "../../component/trending";
 import useSWR from "swr";
 const fetcher =  (...args) => fetch(...args).then((res) => res.json());
 

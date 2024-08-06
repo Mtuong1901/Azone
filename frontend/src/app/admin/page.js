@@ -2,7 +2,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Left from "./component/left";
+import Left from "../component/left";
 
 export default function Dashboard() {
   const router = useRouter();

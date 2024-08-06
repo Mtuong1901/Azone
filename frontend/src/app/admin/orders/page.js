@@ -1,5 +1,5 @@
 'use client'
-import Left from "../component/left";
+import Left from "../../component/left";
 
 export default function Orders(){
     return (

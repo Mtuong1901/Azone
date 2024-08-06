@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import * as Yup from "yup";
-import Left from "../component/left";
+import Left from "../../component/left";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
