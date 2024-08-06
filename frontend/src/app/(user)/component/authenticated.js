@@ -1,5 +1,5 @@
 'use client';
-import { logout } from "@/app/redux/slices/authSlice";
+import { logout } from "@/redux/slices/authSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 

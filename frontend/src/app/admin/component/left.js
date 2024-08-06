@@ -1,4 +1,4 @@
-import { logout } from "@/app/redux/slices/authSlice";
+import { logout } from "@/redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Left() {

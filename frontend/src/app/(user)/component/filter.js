@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMax, setMin } from '../../redux/slices/filterSlice';
+import { setMax, setMin } from '../../../redux/slices/filterSlice';
 
 export default function Filter(props) {
     const [isPriceOpen, setIsPriceOpen] = useState(true);

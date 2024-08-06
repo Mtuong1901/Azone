@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import "./admin.css";
+import "@/styles/admin.css";
 import "../../../public/bootstrap/css/bootstrap.min.css";
-import Providers from "../redux/providers";
-import Left from "./component/left";
 import AuthProvider from "../(user)/component/authprovider";
+import Providers from "@/redux/providers";
 export default function RootLayout({ children }) {
   
 

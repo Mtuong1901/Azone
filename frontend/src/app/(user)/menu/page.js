@@ -4,7 +4,7 @@ import Filter from "../component/filter";
 import ProductList from "../component/productList";
 import useSWR from "swr";
 import { useDispatch, useSelector } from "react-redux";
-import { sortDefault, sortASC, sortDESC } from "@/app/redux/slices/sortSlice";
+import { sortDefault, sortASC, sortDESC } from "@/redux/slices/sortSlice";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { addItem } from "@/app/redux/slices/cartSlices";
+import { addItem } from "@/redux/slices/cartSlices";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 

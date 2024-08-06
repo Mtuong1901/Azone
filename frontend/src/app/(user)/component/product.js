@@ -1,4 +1,4 @@
-import { addItem } from "@/app/redux/slices/cartSlices";
+import { addItem } from "@/redux/slices/cartSlices";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 

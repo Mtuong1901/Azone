@@ -1,5 +1,5 @@
 import {jwtDecode} from 'jwt-decode';
-import { login, logout } from '../../redux/slices/authSlice';
+import { login, logout } from '@/redux/slices/authSlice';
 
 export const checkAuth = (dispatch) => {
     const token = localStorage.getItem('token');

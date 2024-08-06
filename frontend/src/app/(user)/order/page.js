@@ -1,6 +1,6 @@
 'use client';
 
-import { removeCart } from '@/app/redux/slices/cartSlices';
+import { removeCart } from '@/redux/slices/cartSlices';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';

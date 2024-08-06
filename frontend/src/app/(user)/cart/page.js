@@ -1,5 +1,5 @@
 'use client'
-import { removeCart, removeItem } from "@/app/redux/slices/cartSlices";
+import { removeCart, removeItem } from "@/redux/slices/cartSlices";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
