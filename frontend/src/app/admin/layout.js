@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import "@/styles/admin.css";
 import "../../../public/bootstrap/css/bootstrap.min.css";
-import AuthProvider from "../component/authprovider";
+import AuthProvider from "../../component/authprovider";
 import Providers from "@/redux/providers";
 export default function RootLayout({ children }) {
   
