@@ -12,26 +12,30 @@ export default function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/users/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            const { token, user } = data;
-            dispatch(login({ token, user }));
-            localStorage.setItem('token', token);
-            alert('Login successful!');
-            router.push('/'); // Chuyển hướng sau khi đăng nhập thành công
-        } else {
-            const data = await response.json();
-            console.error('Login failed:', data.message || 'Unknown error');
-            alert('Login failed: ' + (data.message || 'Unknown error'));
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API}/users/login`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                }
+                
+            );
+            if (res.ok) {
+                const data = await res.json();
+                const { token, user } = data;
+                dispatch(login({ token, user }));
+                alert('Login successful!');
+                router.push('/');
+            } else {
+                const data = await response.json();
+                console.error('Login failed:', data.error || 'Unknown error');
+                alert('Login failed: ' + (data.error || 'Unknown error'));
+            }
+        } catch (error) {
+            console.log(error)
         }
     };
 

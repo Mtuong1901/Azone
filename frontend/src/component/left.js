@@ -1,3 +1,4 @@
+'use client'
 import { logout } from "@/redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,20 +22,25 @@ export default function Left() {
             id="menu"
           >
             <li class="nav-item">
-              <a href="/admin/orders" class="nav-link px-sm-0 px-2 text-light">
-                <i class="fs-5 bi-table"></i>
-                <span class="ms-1 d-none d-sm-inline">Orders</span>
-              </a>
-            </li>
-            
-            <li class="nav-item">
               <a href="/admin/products" class="nav-link px-sm-0 px-2 text-light">
                 <i class="fs-5 bi-grid"></i>
                 <span class="ms-1 d-none d-sm-inline">Products</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="/admin/orders" class="nav-link px-sm-0 px-2 text-light">
+                <i class="fs-5 bi-table"></i>
+                <span class="ms-1 d-none d-sm-inline">Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category" class="nav-link px-sm-0 px-2 text-light">
+                <i class="fs-5 bi-table"></i>
+                <span class="ms-1 d-none d-sm-inline">Categorys</span>
+              </a>
+            </li>
             <li class="nav-item"> 
-              <a href="#" class="nav-link px-sm-0 px-2 text-light">
+              <a href="/admin/customers" class="nav-link px-sm-0 px-2 text-light">
                 <i class="fs-5 bi-people"></i>
                 <span class="ms-1 d-none d-sm-inline">Customers</span>{" "}
               </a>
@@ -67,12 +73,12 @@ export default function Left() {
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/admin/setting">
                   Settings
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/admin/profile">
                   Profile
                 </a>
               </li>

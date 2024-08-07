@@ -6,7 +6,6 @@ import Left from "../../component/left";
 
 export default function Dashboard() {
   const router = useRouter();
-  const pathname = usePathname();
   const authenticated = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.auth.user);
 

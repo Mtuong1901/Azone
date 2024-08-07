@@ -58,7 +58,88 @@ router.get('/', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
-
+  router.get('/category/:id', async (req, res) => {
+    const { id } = req.params; // Lấy ID từ tham số của URL
+  
+    try {
+      const db = await connectDb();
+      const categoriesCollection = db.collection('categories');
+      const category = await categoriesCollection.findOne({ _id: new ObjectId(id) });
+  
+      if (category) {
+        res.status(200).json(category);
+      } else {
+        res.status(404).json({ message: 'Danh mục không tìm thấy' });
+      }
+    } catch (error) {
+      console.error('Error fetching category:', error);
+      res.status(500).json({ message: 'Lỗi máy chủ nội bộ' });
+    }
+  });
+  
+  router.post('/addCategory', upload.single('image'), async (req, res) => {
+    try {
+      const db = await connectDb();
+      const categoriesCollection = db.collection('categories');
+      const newCategory = req.body;
+      
+      if (req.file) {
+        newCategory.image = req.file.filename; // Cập nhật đường dẫn hình ảnh vào danh mục
+      }
+      
+      const result = await categoriesCollection.insertOne(newCategory);
+  
+      if (result.insertedId) {
+        res.status(201).json({ message: 'Thêm danh mục thành công', category: { _id: result.insertedId, ...newCategory } });
+      } else {
+        res.status(500).json({ message: 'Thêm danh mục không thành công' });
+      }
+    } catch (error) {
+      console.error('Error adding category:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+  router.delete('/deleteCategory/:id', async (req, res, next) => {
+    const db = await connectDb();
+    const categoriesCollection = db.collection('categories');
+    const id = new ObjectId(req.params.id);
+    try {
+      const result = await categoriesCollection.deleteOne({ _id: id });
+      if (result.deletedCount) {
+        res.status(200).json({ message: "Xóa danh muc thành công" });
+      } else {
+        res.status(404).json({ message: "Không tìm thấy danh muc" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+    }
+  });
+  router.put('/updateCategory/:id', upload.single('image'), async (req, res, next) => {
+    const db = await connectDb();
+    const categoryCollection = db.collection('categories');
+    const id = new ObjectId(req.params.id);
+    const { name } = req.body;
+    let updatedCategory = { name}; 
+  
+    if (req.file) {
+      const image = req.file.originalname;
+      updatedCategory.image = image; 
+    }
+  
+    try {
+      const result = await categoryCollection.updateOne({ _id: id }, { $set: updatedCategory });
+      if (result.matchedCount) {
+        res.status(200).json({ message: "Sửa danh muc thành công" });
+      } else {
+        res.status(404).json({ message: "Không tìm thấy danh muc" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại" });
+    }
+  });
+  
   //Lấy sản phẩm theo id
 router.get("/:id", async (req, res, next) => {
   const db = await connectDb();

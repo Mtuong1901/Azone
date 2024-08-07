@@ -66,3 +66,23 @@
     outline: none;
     border: none;
 }
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+  }
+  
+  .status-processing {
+    background-color: blue;
+  }
+  
+  .status-delivery {
+    background-color: green;
+  }
+  
+  .status-cancel {
+    background-color: red;
+  }
+  
